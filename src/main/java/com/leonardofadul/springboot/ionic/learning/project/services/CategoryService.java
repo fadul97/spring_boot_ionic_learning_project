@@ -1,6 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,10 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Category get(Integer id){
+    public Category find(Integer id){
         Optional<Category> obj = categoryRepository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Object not found! Id:" + id + ", Type: " + Category.class.getName()
+        ));
     }
 }

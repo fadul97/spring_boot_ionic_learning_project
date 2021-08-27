@@ -1,5 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Category implements Serializable {
 
     private String name;
 
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categoryList")
     private List<Product> productList = new ArrayList<>();
 
