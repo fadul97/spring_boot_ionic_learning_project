@@ -39,6 +39,9 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 	@Autowired
 	private PaymentRepository paymentRepository;
 
+	@Autowired
+	private ItemRepository itemRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootIonicLearningProjectApplication.class, args);
 	}
@@ -101,5 +104,18 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 		orderRequestRepository.saveAll(Arrays.asList(order1, order2));
 		paymentRepository.saveAll(Arrays.asList(payment1, payment2));
+
+		Item item1 = new Item(order1, p1, 0.00, 1, 2000.00);
+		Item item2 = new Item(order1, p3, 0.00, 2, 80.00);
+		Item item3 = new Item(order2, p2, 100.00, 1, 800.00);
+
+		order1.getItemSet().addAll(Arrays.asList(item1, item2));
+		order2.getItemSet().add(item3);
+
+		p1.getItemSet().add(item1);
+		p2.getItemSet().add(item3);
+		p3.getItemSet().add(item2);
+
+		itemRepository.saveAll(Arrays.asList(item1, item2, item3));
 	}
 }

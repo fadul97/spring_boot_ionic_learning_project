@@ -3,7 +3,9 @@ package com.leonardofadul.springboot.ionic.learning.project.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class OrderRequest implements Serializable {
@@ -23,6 +25,9 @@ public class OrderRequest implements Serializable {
     @ManyToOne
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
+
+    @OneToMany(mappedBy = "id.orderRequest")
+    private Set<Item> itemSet = new HashSet<>();
 
     public OrderRequest(){
     }
@@ -74,6 +79,15 @@ public class OrderRequest implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public Set<Item> getItemSet() {
+        return itemSet;
+    }
+
+    public void setItemSet(Set<Item> itemSet) {
+        this.itemSet = itemSet;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,4 +100,6 @@ public class OrderRequest implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
