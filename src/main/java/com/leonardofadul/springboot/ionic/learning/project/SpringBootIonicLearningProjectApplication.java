@@ -2,12 +2,14 @@ package com.leonardofadul.springboot.ionic.learning.project;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.*;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientType;
+import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -30,6 +32,12 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	private OrderRequestRepository orderRequestRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootIonicLearningProjectApplication.class, args);
@@ -77,5 +85,21 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 		clientRepository.save(client1);
 		addressRepository.saveAll(Arrays.asList(a1, a2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		OrderRequest order1 = new OrderRequest(null, sdf.parse("30/09/2017 10:32"), client1, a1);
+		OrderRequest order2 = new OrderRequest(null, sdf.parse("10/10/2017 19:35"), client1, a2);
+
+		Payment payment1 = new CardPayment(null, PaymentState.COMPLETED, order1, 6);
+		order1.setPayment(payment1);
+
+		Payment payment2 = new BankBilletPayment(null, PaymentState.PENDING, order2, sdf.parse("20/10/2017 00:00"), null);
+		order2.setPayment(payment2);
+
+		client1.getOrderList().addAll(Arrays.asList(order1, order2));
+
+		orderRequestRepository.saveAll(Arrays.asList(order1, order2));
+		paymentRepository.saveAll(Arrays.asList(payment1, payment2));
 	}
 }
