@@ -1,13 +1,8 @@
 package com.leonardofadul.springboot.ionic.learning.project;
 
-import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
-import com.leonardofadul.springboot.ionic.learning.project.domain.City;
-import com.leonardofadul.springboot.ionic.learning.project.domain.Product;
-import com.leonardofadul.springboot.ionic.learning.project.domain.State;
-import com.leonardofadul.springboot.ionic.learning.project.repositories.CategoryRepository;
-import com.leonardofadul.springboot.ionic.learning.project.repositories.CityRepository;
-import com.leonardofadul.springboot.ionic.learning.project.repositories.ProductRepository;
-import com.leonardofadul.springboot.ionic.learning.project.repositories.StateRepository;
+import com.leonardofadul.springboot.ionic.learning.project.domain.*;
+import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientType;
+import com.leonardofadul.springboot.ionic.learning.project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +24,12 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 	@Autowired
 	private CityRepository cityRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootIonicLearningProjectApplication.class, args);
@@ -65,5 +66,16 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+		Client client1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURALPERSON);
+		client1.getTelephoneSet().addAll(Arrays.asList("27363323", "93838393"));
+
+		Address a1 = new Address(null, "Rua Flores", "300", "Apt 203", "Jardim", "38220834", client1, c1);
+		Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, c2);
+
+		client1.getAddressList().addAll(Arrays.asList(a1, a2));
+
+		clientRepository.save(client1);
+		addressRepository.saveAll(Arrays.asList(a1, a2));
 	}
 }
