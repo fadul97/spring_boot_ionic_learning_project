@@ -1,9 +1,11 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.DataIntegrityException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,5 +31,14 @@ public class CategoryService {
     public Category update(Category obj){
         find(obj.getId());
         return categoryRepository.save(obj);
+    }
+
+    public void delete(Integer id){
+        find(id);
+        try{
+        categoryRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DataIntegrityException("It is not possible to delete a category that still has products.");
+        }
     }
 }
