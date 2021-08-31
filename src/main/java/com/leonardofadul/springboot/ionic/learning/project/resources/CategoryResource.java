@@ -1,6 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.resources;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
+import com.leonardofadul.springboot.ionic.learning.project.dto.CategoryDTO;
 import com.leonardofadul.springboot.ionic.learning.project.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -41,5 +44,12 @@ public class CategoryResource {
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<Category> categoryList = categoryService.findAll();
+        List<CategoryDTO> categoryDTOList = categoryList.stream().map(CategoryDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoryDTOList);
     }
 }
