@@ -1,7 +1,6 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientType;
 
 import javax.persistence.*;
@@ -19,7 +18,6 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer clientType;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> addressList = new ArrayList<>();
 
@@ -27,7 +25,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "TELEPHONE")
     private Set<String> telephoneSet = new HashSet<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Pedido> pedidos = new ArrayList<>();
 
