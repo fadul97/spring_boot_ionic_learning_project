@@ -1,6 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
-import javax.persistence.Embeddable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Entity
 public class Item implements Serializable {
 
+    @JsonIgnore
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
 
@@ -19,16 +21,17 @@ public class Item implements Serializable {
     public Item(){
     }
 
-    public Item(OrderRequest orderRequest, Product product, Double discount, Integer quantity, Double price) {
-        id.setOrderRequest(orderRequest);
+    public Item(Pedido pedido, Product product, Double discount, Integer quantity, Double price) {
+        id.setOrderRequest(pedido);
         id.setProduct(product);
         this.discount = discount;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public OrderRequest getOrderRequest(){
-        return id.getOrderRequest();
+    @JsonIgnore
+    public Pedido getPedido(){
+        return id.getPedido();
     }
 
     public Product getProduct(){

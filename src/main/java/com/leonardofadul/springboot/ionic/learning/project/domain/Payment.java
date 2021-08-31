@@ -1,5 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
 
 import javax.persistence.*;
@@ -14,18 +16,19 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer paymentState;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId
-    private OrderRequest orderRequest;
+    private Pedido pedido;
 
     public Payment(){
     }
 
-    public Payment(Integer id, PaymentState paymentState, OrderRequest orderRequest) {
+    public Payment(Integer id, PaymentState paymentState, Pedido pedido) {
         this.id = id;
         this.paymentState = paymentState.getCod();
-        this.orderRequest = orderRequest;
+        this.pedido = pedido;
     }
 
     public Integer getId() {
@@ -44,12 +47,12 @@ public abstract class Payment implements Serializable {
         this.paymentState = paymentState.getCod();
     }
 
-    public OrderRequest getOrder() {
-        return orderRequest;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setOrder(OrderRequest orderRequest) {
-        this.orderRequest = orderRequest;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
     @Override

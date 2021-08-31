@@ -1,5 +1,8 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,16 +11,20 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class OrderRequest implements Serializable {
+public class Pedido implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instant;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "orderRequest")
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Payment payment;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -26,13 +33,13 @@ public class OrderRequest implements Serializable {
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
 
-    @OneToMany(mappedBy = "id.orderRequest")
+    @OneToMany(mappedBy = "id.pedido")
     private Set<Item> itemSet = new HashSet<>();
 
-    public OrderRequest(){
+    public Pedido(){
     }
 
-    public OrderRequest(Integer id, Date instant, Client client, Address deliveryAddress) {
+    public Pedido(Integer id, Date instant, Client client, Address deliveryAddress) {
         this.id = id;
         this.instant = instant;
         this.client = client;
@@ -92,8 +99,8 @@ public class OrderRequest implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderRequest orderRequest = (OrderRequest) o;
-        return Objects.equals(id, orderRequest.id);
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(id, pedido.id);
     }
 
     @Override

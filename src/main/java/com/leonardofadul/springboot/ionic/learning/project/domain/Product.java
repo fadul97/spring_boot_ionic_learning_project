@@ -1,6 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Product implements Serializable {
     )
     private List<Category> categoryList = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product")
     private Set<Item> itemSet = new HashSet<>();
 
@@ -36,13 +38,14 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public List<OrderRequest> getOrderRequestList(){
-        List<OrderRequest> orderRequestList = new ArrayList<>();
+    @JsonIgnore
+    public List<Pedido> getOrderRequestList(){
+        List<Pedido> pedidos = new ArrayList<>();
         for(Item item : itemSet){
-            orderRequestList.add(item.getOrderRequest());
+            pedidos.add(item.getPedido());
         }
 
-        return orderRequestList;
+        return pedidos;
     }
 
     public Integer getId() {

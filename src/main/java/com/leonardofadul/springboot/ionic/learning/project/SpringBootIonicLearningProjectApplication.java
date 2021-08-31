@@ -91,8 +91,8 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		OrderRequest order1 = new OrderRequest(null, sdf.parse("30/09/2017 10:32"), client1, a1);
-		OrderRequest order2 = new OrderRequest(null, sdf.parse("10/10/2017 19:35"), client1, a2);
+		Pedido order1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), client1, a1);
+		Pedido order2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), client1, a2);
 
 		Payment payment1 = new CardPayment(null, PaymentState.COMPLETED, order1, 6);
 		order1.setPayment(payment1);
@@ -100,7 +100,7 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 		Payment payment2 = new BankBilletPayment(null, PaymentState.PENDING, order2, sdf.parse("20/10/2017 00:00"), null);
 		order2.setPayment(payment2);
 
-		client1.getOrderList().addAll(Arrays.asList(order1, order2));
+		client1.getPedidos().addAll(Arrays.asList(order1, order2));
 
 		orderRequestRepository.saveAll(Arrays.asList(order1, order2));
 		paymentRepository.saveAll(Arrays.asList(payment1, payment2));
