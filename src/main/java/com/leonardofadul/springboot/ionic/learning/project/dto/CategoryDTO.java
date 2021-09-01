@@ -2,11 +2,16 @@ package com.leonardofadul.springboot.ionic.learning.project.dto;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class CategoryDTO implements Serializable {
 
     private Integer id;
+
+    @NotEmpty(message = "Field 'name' is required.")
+    @Size(min = 5, max = 80, message = "Length must be between 5 and 80 characters.")
     private String name;
 
     public CategoryDTO(){

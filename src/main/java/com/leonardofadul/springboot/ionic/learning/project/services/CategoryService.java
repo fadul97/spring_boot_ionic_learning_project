@@ -1,6 +1,7 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
+import com.leonardofadul.springboot.ionic.learning.project.dto.CategoryDTO;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.DataIntegrityException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.CategoryRepository;
@@ -53,5 +54,9 @@ public class CategoryService {
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoryRepository.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO){
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 }
