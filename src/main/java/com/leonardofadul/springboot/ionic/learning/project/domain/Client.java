@@ -18,7 +18,7 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer clientType;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addressList = new ArrayList<>();
 
     @ElementCollection
