@@ -4,6 +4,7 @@ import com.leonardofadul.springboot.ionic.learning.project.domain.Category;
 import com.leonardofadul.springboot.ionic.learning.project.dto.CategoryDTO;
 import com.leonardofadul.springboot.ionic.learning.project.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,5 +52,15 @@ public class CategoryResource {
         List<Category> categoryList = categoryService.findAll();
         List<CategoryDTO> categoryDTOList = categoryList.stream().map(CategoryDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(categoryDTOList);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoryDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                      @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+                                                      @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+                                                      @RequestParam(value = "direction", defaultValue = "ASC") String direction){
+        Page<Category> categoryPage = categoryService.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> categoryDTOPage = categoryPage.map(CategoryDTO::new);
+        return ResponseEntity.ok().body(categoryDTOPage);
     }
 }
