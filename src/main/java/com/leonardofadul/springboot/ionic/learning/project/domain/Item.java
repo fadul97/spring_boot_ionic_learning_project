@@ -22,7 +22,7 @@ public class Item implements Serializable {
     }
 
     public Item(Pedido pedido, Product product, Double discount, Integer quantity, Double price) {
-        id.setOrderRequest(pedido);
+        id.setPedido(pedido);
         id.setProduct(product);
         this.discount = discount;
         this.quantity = quantity;
@@ -38,8 +38,16 @@ public class Item implements Serializable {
         return id.getPedido();
     }
 
+    public void setPedido(Pedido pedido){
+        id.setPedido(pedido);
+    }
+
     public Product getProduct(){
         return id.getProduct();
+    }
+
+    public void setProduct(Product product){
+        id.setProduct(product);
     }
 
     public OrderItemPK getId() {

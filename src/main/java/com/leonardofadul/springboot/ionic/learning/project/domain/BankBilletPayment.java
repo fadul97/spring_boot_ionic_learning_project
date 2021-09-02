@@ -1,12 +1,14 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
 
 import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("bankBilletPayment")
 public class BankBilletPayment extends Payment{
 
     @JsonFormat(pattern = "dd/MM/yyyy")

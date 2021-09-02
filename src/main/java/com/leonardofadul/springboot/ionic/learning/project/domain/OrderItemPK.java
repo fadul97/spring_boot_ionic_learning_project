@@ -21,7 +21,7 @@ public class OrderItemPK implements Serializable {
         return pedido;
     }
 
-    public void setOrderRequest(Pedido pedido) {
+    public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
 

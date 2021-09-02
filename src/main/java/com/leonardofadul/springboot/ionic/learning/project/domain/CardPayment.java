@@ -1,10 +1,12 @@
 package com.leonardofadul.springboot.ionic.learning.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
 
 import javax.persistence.Entity;
 
 @Entity
+@JsonTypeName("cardPayment")
 public class CardPayment extends Payment{
 
     private Integer installments;

@@ -48,7 +48,7 @@ public class Pedido implements Serializable {
         for(Item item : itemSet){
             total += item.getSubTotal();
         }
-        
+
         return total;
     }
 
