@@ -59,16 +59,37 @@ public class SpringBootIonicLearningProjectApplication implements CommandLineRun
 		Product p1 = new Product(null, "Computer", 2000.00);
 		Product p2 = new Product(null, "Printer", 800.00);
 		Product p3 = new Product(null, "Mouse", 80.00);
+		Product p4 = new Product(null, "Office table", 300.00);
+		Product p5 = new Product(null, "Towel", 50.00);
+		Product p6 = new Product(null, "Quilt", 200.00);
+		Product p7 = new Product(null, "TV True Color", 1200.00);
+		Product p8 = new Product(null, "Mower", 800.00);
+		Product p9 = new Product(null, "Lampshade", 100.00);
+		Product p10 = new Product(null, "Pendant", 180.00);
+		Product p11 = new Product(null, "Shampoo", 90.00);
 
 		cat1.getProductList().addAll(Arrays.asList(p1, p2, p3));
-		cat2.getProductList().add(p2);
+		cat2.getProductList().addAll(Arrays.asList(p2, p4));
+		cat3.getProductList().addAll(Arrays.asList(p5, p6));
+		cat4.getProductList().addAll(Arrays.asList(p1, p2, p3, p7));
+		cat5.getProductList().add(p8);
+		cat6.getProductList().addAll(Arrays.asList(p9, p10));
+		cat7.getProductList().add(p11);
 
-		p1.getCategoryList().add(cat1);
-		p2.getCategoryList().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategoryList().add(cat1);
+		p1.getCategories().addAll(Arrays.asList(cat1, cat4));
+		p2.getCategories().addAll(Arrays.asList(cat1, cat2, cat4));
+		p3.getCategories().addAll(Arrays.asList(cat1, cat4));
+		p4.getCategories().add(cat2);
+		p5.getCategories().add(cat3);
+		p6.getCategories().add(cat3);
+		p7.getCategories().add(cat4);
+		p8.getCategories().add(cat5);
+		p9.getCategories().add(cat6);
+		p10.getCategories().add(cat6);
+		p11.getCategories().add(cat7);
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
-		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
 		State st1 = new State(null, "Minas Gerais");
 		State st2 = new State(null, "São Paulo");

@@ -15,7 +15,7 @@ public class Category implements Serializable {
 
     private String name;
 
-    @ManyToMany(mappedBy = "categoryList")
+    @ManyToMany(mappedBy = "categories")
     private List<Product> productList = new ArrayList<>();
 
     public Category(){

@@ -22,7 +22,7 @@ public class Product implements Serializable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categoryList = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "id.product")
@@ -71,12 +71,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public List<Category> getCategoryList() {
-        return categoryList;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public Set<Item> getItemSet() {
