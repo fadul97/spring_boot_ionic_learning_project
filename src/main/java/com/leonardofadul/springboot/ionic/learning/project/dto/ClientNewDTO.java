@@ -1,21 +1,43 @@
 package com.leonardofadul.springboot.ionic.learning.project.dto;
 
+import com.leonardofadul.springboot.ionic.learning.project.dto.validations.ClientInsert;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 
+    @NotEmpty(message = "Field 'name' required.")
+    @Size(min = 5, max = 120, message = "Length must be between 5 and 120 characters.")
     private String name;
+
+    @NotEmpty(message = "Field 'email' required.")
+    @Email(message = "Invalid email.")
     private String email;
+
+    @NotEmpty(message = "Field 'cpfOrCnpj' required.")
     private String cpfOrCnpj;
+
     private Integer clientType;
 
+    @NotEmpty(message = "Field 'street' required.")
     private String street;
+
+    @NotEmpty(message = "Field 'number' required.")
     private String number;
+
     private String complement;
     private String district;
+
+    @NotEmpty(message = "Field 'zipCode' required.")
     private String zipCode;
 
+    @NotEmpty(message = "Field 'telephone1' required.")
     private String telephone1;
+
     private String telephone2;
     private String telephone3;
 
