@@ -43,6 +43,15 @@ public class Pedido implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public double getTotalPrice(){
+        double total = 0.0;
+        for(Item item : itemSet){
+            total += item.getSubTotal();
+        }
+        
+        return total;
+    }
+
     public Integer getId() {
         return id;
     }
