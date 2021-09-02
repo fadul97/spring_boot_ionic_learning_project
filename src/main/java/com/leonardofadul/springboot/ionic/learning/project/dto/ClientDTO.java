@@ -1,12 +1,14 @@
 package com.leonardofadul.springboot.ionic.learning.project.dto;
 
 import com.leonardofadul.springboot.ionic.learning.project.domain.Client;
+import com.leonardofadul.springboot.ionic.learning.project.dto.validations.ClientUpdate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@ClientUpdate
 public class ClientDTO implements Serializable {
 
     private Integer id;
