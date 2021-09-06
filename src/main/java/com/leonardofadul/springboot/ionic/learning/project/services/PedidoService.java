@@ -33,6 +33,9 @@ public class PedidoService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private ClientService clientService;
+
     public Pedido find(Integer id){
         Optional<Pedido> obj = orderRequestRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Object now found! Id: " + id + ", Type: " + Pedido.class.getName()
@@ -43,6 +46,7 @@ public class PedidoService {
     public Pedido insert(Pedido obj){
         obj.setId(null);
         obj.setInstant(new Date());
+        obj.setClient(clientService.find(obj.getClient().getId()));
         obj.getPayment().setPaymentState(PaymentState.PENDING);
         obj.getPayment().setPedido(obj);
 
@@ -55,11 +59,13 @@ public class PedidoService {
         paymentRepository.save(obj.getPayment());
         for(Item item : obj.getItemSet()){
             item.setDiscount(0.0);
-            item.setPrice(productService.find(item.getProduct().getId()).getPrice());
+            item.setProduct(productService.find(item.getProduct().getId()));
+            item.setPrice(item.getProduct().getPrice());
             item.setPedido(obj);
         }
 
         itemRepository.saveAll(obj.getItemSet());
+        System.out.println(obj);
         return obj;
     }
 }
