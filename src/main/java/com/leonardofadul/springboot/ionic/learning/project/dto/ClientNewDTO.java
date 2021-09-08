@@ -18,6 +18,9 @@ public class ClientNewDTO implements Serializable {
     @Email(message = "Invalid email.")
     private String email;
 
+    @NotEmpty(message = "Field 'password' required.")
+    private String password;
+
     @NotEmpty(message = "Field 'cpfOrCnpj' required.")
     private String cpfOrCnpj;
 
@@ -148,5 +151,13 @@ public class ClientNewDTO implements Serializable {
 
     public void setCityId(Integer cityId) {
         this.cityId = cityId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

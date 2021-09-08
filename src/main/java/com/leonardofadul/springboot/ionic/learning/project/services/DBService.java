@@ -5,6 +5,7 @@ import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientTy
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -98,7 +102,7 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Client client1 = new Client(null, "Maria Silva", "lsffadul@gmail.com", "36378912377", ClientType.NATURALPERSON);
+        Client client1 = new Client(null, "Maria Silva", "lsffadul@gmail.com", pe.encode("123"), "36378912377", ClientType.NATURALPERSON);
         client1.getTelephoneSet().addAll(Arrays.asList("27363323", "93838393"));
 
         Address a1 = new Address(null, "Rua Flores", "300", "Apt 203", "Jardim", "38220834", client1, c1);
