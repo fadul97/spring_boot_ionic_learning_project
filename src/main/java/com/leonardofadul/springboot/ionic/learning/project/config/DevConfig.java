@@ -1,6 +1,8 @@
 package com.leonardofadul.springboot.ionic.learning.project.config;
 
 import com.leonardofadul.springboot.ionic.learning.project.services.DBService;
+import com.leonardofadul.springboot.ionic.learning.project.services.EmailService;
+import com.leonardofadul.springboot.ionic.learning.project.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,5 +28,10 @@ public class DevConfig {
         }
         dbService.instantiateTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
     }
 }
