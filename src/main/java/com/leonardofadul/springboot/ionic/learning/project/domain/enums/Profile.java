@@ -6,19 +6,19 @@ public enum Profile {
     CLIENT(2, "ROLE_CLIENT");
 
     private int cod;
-    private String type;
+    private String description;
 
-    private Profile(int cod, String type) {
+    private Profile(int cod, String description) {
         this.cod = cod;
-        this.type = type;
+        this.description = description;
     }
 
     public int getCod() {
         return cod;
     }
 
-    public String getType() {
-        return type;
+    public String getDescription() {
+        return description;
     }
 
     public static Profile toEnum(Integer cod){
