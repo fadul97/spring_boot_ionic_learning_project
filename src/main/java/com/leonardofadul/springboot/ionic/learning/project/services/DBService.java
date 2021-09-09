@@ -3,6 +3,7 @@ package com.leonardofadul.springboot.ionic.learning.project.services;
 import com.leonardofadul.springboot.ionic.learning.project.domain.*;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientType;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
+import com.leonardofadul.springboot.ionic.learning.project.domain.enums.Profile;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -102,16 +103,22 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Client client1 = new Client(null, "Maria Silva", "lsffadul@gmail.com", pe.encode("123"), "36378912377", ClientType.NATURALPERSON);
+        Client client1 = new Client(null, "Maria Silva", "maria@gmail.com", pe.encode("123"), "36378912377", ClientType.NATURALPERSON);
         client1.getTelephoneSet().addAll(Arrays.asList("27363323", "93838393"));
+
+        Client client2 = new Client(null, "Ana Costa", "lsffadul@gmail.com", pe.encode("123"), "31628382740", ClientType.NATURALPERSON);
+        client1.getTelephoneSet().addAll(Arrays.asList("93883321", "34252625"));
+        client2.addProfile(Profile.ADMIN);
 
         Address a1 = new Address(null, "Rua Flores", "300", "Apt 203", "Jardim", "38220834", client1, c1);
         Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, c2);
+        Address a3 = new Address(null, "Avenida Floriano", "2106", null, "Centro", "281777012", client2, c2);
 
         client1.getAddressList().addAll(Arrays.asList(a1, a2));
+        client2.getAddressList().add(a3);
 
-        clientRepository.save(client1);
-        addressRepository.saveAll(Arrays.asList(a1, a2));
+        clientRepository.saveAll(Arrays.asList(client1, client2));
+        addressRepository.saveAll(Arrays.asList(a1, a2, a3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
