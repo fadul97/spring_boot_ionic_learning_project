@@ -1,14 +1,17 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
-import com.leonardofadul.springboot.ionic.learning.project.domain.BankBilletPayment;
-import com.leonardofadul.springboot.ionic.learning.project.domain.Item;
-import com.leonardofadul.springboot.ionic.learning.project.domain.Pedido;
+import com.leonardofadul.springboot.ionic.learning.project.domain.*;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.PaymentState;
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.AuthorizationException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.ItemRepository;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.OrderRequestRepository;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.PaymentRepository;
+import com.leonardofadul.springboot.ionic.learning.project.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +73,17 @@ public class PedidoService {
         itemRepository.saveAll(obj.getItemSet());
         emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
+    }
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user == null){
+            throw new AuthorizationException("Access denied");
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Client client = clientService.find(user.getId());
+
+        return orderRequestRepository.findByClient(client, pageRequest);
     }
 }
