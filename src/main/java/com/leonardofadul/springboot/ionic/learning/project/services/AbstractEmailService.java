@@ -1,5 +1,6 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
+import com.leonardofadul.springboot.ionic.learning.project.domain.Client;
 import com.leonardofadul.springboot.ionic.learning.project.domain.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,22 @@ public class AbstractEmailService implements EmailService{
         sm.setSubject("Order confirmed! Code: " + obj.getId());
         sm.setSentDate(new Date(System.currentTimeMillis()));
         sm.setText(obj.toString());
+        return sm;
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(client, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(client.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("New password Request: ");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("New password: " + newPass);
         return sm;
     }
 

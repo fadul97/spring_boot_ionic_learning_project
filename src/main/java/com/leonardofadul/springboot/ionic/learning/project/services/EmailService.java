@@ -1,5 +1,6 @@
 package com.leonardofadul.springboot.ionic.learning.project.services;
 
+import com.leonardofadul.springboot.ionic.learning.project.domain.Client;
 import com.leonardofadul.springboot.ionic.learning.project.domain.Pedido;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -15,4 +16,5 @@ public interface EmailService {
 
     void sendHtmlEmail(MimeMessage msg);
 
+    void sendNewPasswordEmail(Client client, String newPass);
 }
