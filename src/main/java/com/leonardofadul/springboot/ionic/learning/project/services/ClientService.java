@@ -4,13 +4,16 @@ import com.leonardofadul.springboot.ionic.learning.project.domain.Address;
 import com.leonardofadul.springboot.ionic.learning.project.domain.City;
 import com.leonardofadul.springboot.ionic.learning.project.domain.Client;
 import com.leonardofadul.springboot.ionic.learning.project.domain.enums.ClientType;
+import com.leonardofadul.springboot.ionic.learning.project.domain.enums.Profile;
 import com.leonardofadul.springboot.ionic.learning.project.dto.ClientDTO;
 import com.leonardofadul.springboot.ionic.learning.project.dto.ClientNewDTO;
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.AuthorizationException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.DataIntegrityException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.AddressRepository;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.CityRepository;
 import com.leonardofadul.springboot.ionic.learning.project.repositories.ClientRepository;
+import com.leonardofadul.springboot.ionic.learning.project.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -40,6 +43,11 @@ public class ClientService {
     private AddressRepository addressRepository;
 
     public Client find(Integer id){
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Access denied");
+        }
+
         Optional<Client> obj = clientRepository.findById(id);
         return  obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Object not found! Id: " +  id + ", Type: " + Client.class.getName()

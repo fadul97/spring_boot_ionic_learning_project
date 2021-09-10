@@ -1,5 +1,6 @@
 package com.leonardofadul.springboot.ionic.learning.project.resources.exceptions;
 
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.AuthorizationException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.DataIntegrityException;
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,11 @@ public class ResourceExceptionHandler {
          }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request){
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 }
