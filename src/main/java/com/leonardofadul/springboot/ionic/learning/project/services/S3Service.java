@@ -5,6 +5,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.leonardofadul.springboot.ionic.learning.project.exceptions.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class S3Service {
             String contentType = multipartFile.getContentType();
             return uploadFile(is, fileName, contentType);
         } catch (IOException e){
-            throw new RuntimeException("IO Error: " + e.getMessage());
+            throw new FileException("IO Error: " + e.getMessage());
         }
     }
 
@@ -49,7 +50,7 @@ public class S3Service {
             LOG.info("Upload finished");
             return s3Client.getUrl(bucketName, fileName).toURI();
         } catch (URISyntaxException e){
-            throw new RuntimeException("Error trying to convert URL into URI");
+            throw new FileException("Error trying to convert URL into URI");
         }
     }
 
