@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Email;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -120,6 +119,16 @@ public class ClientService {
     }
 
     public URI uploadProfilePicture(MultipartFile multipartFile){
+        UserSS user = UserService.authenticated();
+        if(user == null){
+            throw new AuthorizationException("Access denied.");
+        }
+
+        URI uri = s3Service.uploadFile(multipartFile);
+        Optional<Client> client = clientRepository.findById(user.getId());
+        assert client.orElse(null) != null;
+        client.orElse(null).setImageUrl(uri.toString());
+        clientRepository.save(client.orElse(null));
         return s3Service.uploadFile(multipartFile);
     }
 }
