@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.leonardofadul.springboot.ionic.learning.project.SpringBootIonicLearningProjectApplication
+Main-Class: com.leonardofadul.springboot.ionic.learning.project.MainApplication
 
