@@ -2,6 +2,7 @@ package com.leonardofadul.springboot.ionic.learning.project.services;
 
 import com.leonardofadul.springboot.ionic.learning.project.exceptions.FileException;
 import org.apache.commons.io.FilenameUtils;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,5 +48,18 @@ public class ImageService {
         } catch (IOException e) {
             throw new FileException("Error trying to read file.");
         }
+    }
+
+    public BufferedImage cropSquare(BufferedImage sourceImage){
+        int min = Math.min(sourceImage.getHeight(), sourceImage.getWidth());
+        return Scalr.crop(
+                sourceImage,
+                (sourceImage.getWidth()/2) - (min/2),
+                (sourceImage.getHeight()/2) - (min/2),
+                min, min);
+    }
+
+    public BufferedImage resize(BufferedImage sourceImage, int size){
+        return Scalr.resize(sourceImage, Scalr.Method.ULTRA_QUALITY, size);
     }
 }
